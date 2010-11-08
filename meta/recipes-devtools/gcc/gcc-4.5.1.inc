@@ -5,8 +5,6 @@ DEPENDS =+ "mpfr gmp libmpc elfutils"
 NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native elfutils-native"
 
 SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
-	   file://gcc-4.5.0_to_svn_162697.patch.bz2 \
-	   file://gcc_revert_base_version_to_4.5.0.patch \
 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://100-uclibc-conf.patch \
            file://gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -14,7 +12,6 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
 	   file://gcc-flags-for-build.patch \
 	   file://libstdc++-emit-__cxa_end_cleanup-in-text.patch \
 	   file://arm-bswapsi2.patch \
-	   file://gcc-pr43698-arm-rev-instr.patch \
 		\
            file://fedora/gcc43-c++-builtin-redecl.patch;striplevel=0 \
            file://fedora/gcc43-ia64-libunwind.patch;striplevel=0 \
