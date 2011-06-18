@@ -1,13 +1,26 @@
 require gcc-common.inc
-# The below backports are from FSF 4.6 branch on top
-# of latest minor release based of 4.6.x series
-# these patches will collapse once the next minor
-# release is done and we move the recipes to that
-# release
 
-require gcc-4_6-branch-backports.inc
+PR = "r4"
 
-PR = "r3"
+# Third digit in PV should be incremented after a minor release
+# happens from this branch on gcc e.g. currently its 4.6.0
+# when 4.6.1 is releases and we bump SRCREV beyond the release
+# on branch then PV should be incremented to 4.6.1+svnr${SRCPV}
+# to reflect that change
+
+PV = "4.6.0+svnr${SRCPV}"
+
+# BINV should be incremented after updating to a revision
+# after a minor gcc release (e.g. 4.6.1 or 4.6.2) has been made
+# the value will be minor-release+1 e.g. if current minor release was
+# 4.6.1 then the value below will have 2 which will mean 4.6.2
+# which will be next minor release and so on.
+
+BINV = "4.6.1"
+
+SRCREV = 175150
+BRANCH = "gcc-4_6-branch"
+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.6' ], d)}"
 
 DEPENDS =+ "mpfr gmp libmpc"
 NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native"
@@ -20,8 +33,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
 
-SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
-	   ${GCC-4_6-BRANCH-BACKPORTS} \
+SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 	   file://100-uclibc-conf.patch \
            file://gcc-uclibc-locale-ctype_touplow_t.patch \
@@ -58,9 +70,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
 
 SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
 
-SRC_URI[md5sum] = "93d1c436bf991564524701259b6285a2"
-SRC_URI[sha256sum] = "23bd0013d76ac6fb4537e5e8f4e5947129362dcc32f0d08563b7d4d9e44c0e17"
-
+S = "${WORKDIR}/${BRANCH}"
 
 # Language Overrides
 FORTRAN = ""
